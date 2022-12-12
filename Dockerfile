@@ -28,15 +28,17 @@ USER node
 # Can be a tag, release, but prefer a commit hash because it's not changeable
 # https://github.com/bitwarden/clients/commit/${VAULT_VERSION}
 #
-# Using https://github.com/bitwarden/clients/releases/tag/web-v2022.6.2
-ARG VAULT_VERSION=c0cb88a733c677fae84e517fbc63d7d16cb912c2
+# Using https://github.com/bitwarden/clients/releases/tag/web-v2022.11.2
+ARG VAULT_VERSION=9c5aabcf21d932c7b60aad52e0e8ccb017d45e47
 
-RUN git clone https://github.com/bitwarden/clients.git /vault
 WORKDIR /vault
-
-RUN git -c advice.detachedHead=false checkout "${VAULT_VERSION}"
+RUN git init
+RUN git remote add origin https://github.com/bitwarden/clients.git
+RUN git fetch --depth 1 origin "${VAULT_VERSION}"
+RUN git -c advice.detachedHead=false checkout FETCH_HEAD
 
 COPY --chown=node:node patches /patches
+COPY --chown=node:node resources /resources
 COPY --chown=node:node scripts/apply_patches.sh /apply_patches.sh
 
 RUN bash /apply_patches.sh
