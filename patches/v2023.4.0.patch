@@ -99,7 +99,7 @@ index 1ecd7d3fef..0dd5f049c7 100644
 +      let baseUrl = window.location.href;
 +      baseUrl = baseUrl.replace(/#.*/, '');  // Strip off `#` and everything after.
 +      baseUrl = baseUrl.replace(/\/+$/, ''); // Trim any trailing `/` chars.
-+      return baseUrl;
++      return ":baseUrl";
 +    }
      return async () => {
        await this.stateService.init();

@@ -101,3 +101,15 @@ gh-prepare:
 gh-release:
 	./scripts/gh_release.sh
 .PHONY: gh-release
+
+native-build:
+	git clone https://github.com/bitwarden/clients.git vault
+	cd vault
+	git -c advice.detachedHead=false checkout $(HASH)
+	cd vault
+	cp ../scripts/apply_patches.sh apply_patches.sh
+	bash apply_patches.sh
+	npm ci
+	npm audit fix || true
+	cd apps/web
+	npm run dist:oss:selfhost

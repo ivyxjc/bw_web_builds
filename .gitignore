@@ -1,4 +1,5 @@
-# Local build artifacts
+.idea
+.vercel
 builds/
 docker_builds/
 container_builds/
